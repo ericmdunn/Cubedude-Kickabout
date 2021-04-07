@@ -16,6 +16,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Cubedude-Kickabout"
+run/main_scene="res://Level/Level.tscn"
 config/icon="res://icon.png"
 
 [input]
@@ -68,3 +69,10 @@ left_2={
 , Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":1,"axis":0,"axis_value":-1.0,"script":null)
  ]
 }
+
+[layer_names]
+
+3d_physics/layer_1="Player"
+3d_physics/layer_2="Level"
+3d_physics/layer_3="Ball"
+3d_physics/layer_4="Net"
