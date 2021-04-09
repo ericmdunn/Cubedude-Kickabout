@@ -11,6 +11,8 @@ const UP = Vector3(0, 1, 0)
 
 func _physics_process(delta):
 	move()
+	animate()
+	face_forward()
 
 
 # Handles taking in input from the players, calculating movement, and outputting movement to move_and_slide()
@@ -20,4 +22,19 @@ func move():
 	var z = Input.get_action_strength("down_%s" % player_id) - Input.get_action_strength("up_%s" % player_id)
 	motion = Vector3(x, 0, z)
 	move_and_slide(motion * SPEED, UP)
+
+
+func animate():
+	# Animates player movement when moving and stops it wen not
+	if motion.length() > 0:
+		$AnimationPlayer.play("Arms Cross Walk")
+	else:
+		$AnimationPlayer.stop()
+
+
+func face_forward():
+	# Makes the player face the direction they're moving in.
+	# Vector3 is multiplied by SPEED to prevent the look direction from lagging behind motion.
+	if motion.length() > 0:
+		look_at(Vector3(-motion.x, 0, -motion.z)*SPEED, UP)
 
