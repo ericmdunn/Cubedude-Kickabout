@@ -11,6 +11,7 @@ export var player_id = 1
 
 const SPEED = 10
 const UP = Vector3(0, 1, 0)
+const GRAVITY = -2
 
 
 func _ready():
@@ -28,7 +29,7 @@ func move():
 	# Handles analog input from control sticks, as well as stopping when both oposite directions are held on KB
 	var x = Input.get_action_strength("right_%s" % player_id) - Input.get_action_strength("left_%s" % player_id)
 	var z = Input.get_action_strength("down_%s" % player_id) - Input.get_action_strength("up_%s" % player_id)
-	motion = Vector3(x, 0, z)
+	motion = Vector3(x, GRAVITY, z)
 	
 	if can_move:
 		move_and_slide(motion * SPEED, UP)
@@ -36,7 +37,8 @@ func move():
 
 func animate():
 	# Animates player movement when moving and stops it wen not
-	if motion.length() > 0 and can_move:
+	var horizontal_motion = Vector3(motion.x, 0, motion.z)
+	if horizontal_motion.length() > 0 and can_move:
 		$AnimationPlayer.play("Arms Cross Walk")
 	else:
 		$AnimationPlayer.stop()
