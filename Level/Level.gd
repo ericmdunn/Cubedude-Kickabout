@@ -12,6 +12,7 @@ func _on_GoalDetector_body_entered(body, goal_id):
 	print("Player #%d has scored!" % goal_id )
 	get_tree().call_group("game_pieces", "freeze")
 	update_score(goal_id)
+	$Airhorn.play()
 	$Timer.start()
 
 

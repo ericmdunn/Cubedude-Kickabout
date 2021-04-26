@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://scenery/Pitch.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Ball/Ball.tscn" type="PackedScene" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://GUI/GUI.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Assets/GFX/floor.jpg" type="Texture" id=8]
 [ext_resource path="res://Level/Decor/Adverts.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Assets/SFX/airhorn.ogg" type="AudioStream" id=10]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 12, 5, 0.5 )
@@ -86,7 +87,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0 )
 
 [node name="BackWall" type="StaticBody" parent="PlayerBoundaries"]
 visible = false
-collision_layer = 2
+collision_layer = 16
 
 [node name="CollisionShape" type="CollisionShape" parent="PlayerBoundaries/BackWall"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -5.8 )
@@ -94,8 +95,7 @@ shape = SubResource( 1 )
 
 [node name="FrontWall" type="StaticBody" parent="PlayerBoundaries"]
 visible = false
-collision_layer = 2
-collision_mask = 5
+collision_layer = 16
 
 [node name="CollisionShape" type="CollisionShape" parent="PlayerBoundaries/FrontWall"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 5.8 )
@@ -103,8 +103,7 @@ shape = SubResource( 1 )
 
 [node name="LeftWall" type="StaticBody" parent="PlayerBoundaries"]
 visible = false
-collision_layer = 2
-collision_mask = 5
+collision_layer = 16
 
 [node name="CollisionShape" type="CollisionShape" parent="PlayerBoundaries/LeftWall"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10.15, 4, 0 )
@@ -112,8 +111,7 @@ shape = SubResource( 2 )
 
 [node name="RightWall" type="StaticBody" parent="PlayerBoundaries"]
 visible = false
-collision_layer = 2
-collision_mask = 5
+collision_layer = 16
 
 [node name="CollisionShape" type="CollisionShape" parent="PlayerBoundaries/RightWall"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.15, 4, 0 )
@@ -123,7 +121,7 @@ shape = SubResource( 2 )
 
 [node name="BackWall" type="StaticBody" parent="BallBoundaries"]
 visible = false
-collision_layer = 2
+collision_layer = 32
 collision_mask = 4
 
 [node name="CollisionShape" type="CollisionShape" parent="BallBoundaries/BackWall"]
@@ -132,7 +130,7 @@ shape = SubResource( 1 )
 
 [node name="FrontWall" type="StaticBody" parent="BallBoundaries"]
 visible = false
-collision_layer = 2
+collision_layer = 32
 collision_mask = 4
 
 [node name="CollisionShape" type="CollisionShape" parent="BallBoundaries/FrontWall"]
@@ -140,8 +138,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 6.2 )
 shape = SubResource( 1 )
 
 [node name="LeftWall" type="StaticBody" parent="BallBoundaries"]
-visible = false
-collision_layer = 2
+collision_layer = 32
 collision_mask = 4
 
 [node name="CollisionShapeF" type="CollisionShape" parent="BallBoundaries/LeftWall"]
@@ -157,8 +154,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10.4, 5, 0 )
 shape = SubResource( 5 )
 
 [node name="LeftWall2" type="StaticBody" parent="BallBoundaries"]
-visible = false
-collision_layer = 2
+collision_layer = 32
 collision_mask = 4
 
 [node name="CollisionShapeF" type="CollisionShape" parent="BallBoundaries/LeftWall2"]
@@ -227,6 +223,10 @@ transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, -9.5, 0
 
 [node name="Adverts14" parent="Decor" instance=ExtResource( 9 )]
 transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, -9.5, 0, -4 )
+
+[node name="Airhorn" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 10 )
+volume_db = -10.0
 [connection signal="body_entered" from="Goals/Goal1/GoalDetector" to="." method="_on_GoalDetector_body_entered" binds= [ 2 ]]
 [connection signal="body_entered" from="Goals/Goal2/GoalDetector" to="." method="_on_GoalDetector_body_entered" binds= [ 1 ]]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

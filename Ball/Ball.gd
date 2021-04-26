@@ -26,3 +26,7 @@ func freeze():
 #	axis_lock_angular_y = true
 #	axis_lock_angular_z = true
 
+
+func _on_Ball_body_entered(body):
+	if body is KinematicBody and not $AudioStreamPlayer3D.is_playing():
+		$AudioStreamPlayer3D.play()
