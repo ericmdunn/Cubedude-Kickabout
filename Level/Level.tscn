@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://scenery/Pitch.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Ball/Ball.tscn" type="PackedScene" id=2]
@@ -7,9 +7,11 @@
 [ext_resource path="res://Level/Goal.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Level/Level.gd" type="Script" id=6]
 [ext_resource path="res://GUI/GUI.tscn" type="PackedScene" id=7]
-[ext_resource path="res://Assets/GFX/floor.jpg" type="Texture" id=8]
+[ext_resource path="res://Assets/GFX/grass1.jpeg" type="Texture" id=8]
 [ext_resource path="res://Level/Decor/Adverts.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Assets/SFX/airhorn.ogg" type="AudioStream" id=10]
+[ext_resource path="res://Level/SpotLight.gd" type="Script" id=11]
+[ext_resource path="res://Level/DirectionalLight.gd" type="Script" id=12]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 12, 5, 0.5 )
@@ -32,6 +34,21 @@ albedo_texture = ExtResource( 8 )
 [sub_resource type="PlaneMesh" id=7]
 material = SubResource( 6 )
 size = Vector2( 100, 100 )
+
+[sub_resource type="Animation" id=8]
+resource_name = "Fade"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:light_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.5, 0.0 ]
+}
 
 [node name="Game" type="Spatial"]
 script = ExtResource( 6 )
@@ -170,7 +187,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.4, 5, 0 )
 shape = SubResource( 5 )
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 3.0
+wait_time = 3.5
 one_shot = true
 
 [node name="GUI" parent="." instance=ExtResource( 7 )]
@@ -227,6 +244,28 @@ transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, -9.5, 0
 [node name="Airhorn" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 10 )
 volume_db = -10.0
+
+[node name="DirectionalLight" type="DirectionalLight" parent="." groups=[
+"game_pieces",
+]]
+transform = Transform( 0.866025, -0.353553, 0.353553, 0, 0.707107, 0.707107, -0.5, -0.612372, 0.612372, 20, 15, 10 )
+light_energy = 1.5
+light_indirect_energy = 3.41
+shadow_enabled = true
+script = ExtResource( 12 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="DirectionalLight"]
+anims/Fade = SubResource( 8 )
+
+[node name="SpotLight" type="SpotLight" parent="." groups=[
+"game_pieces",
+]]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 12, 0 )
+light_energy = 5.0
+shadow_enabled = true
+spot_range = 20.0
+spot_angle = 15.0
+script = ExtResource( 11 )
 [connection signal="body_entered" from="Goals/Goal1/GoalDetector" to="." method="_on_GoalDetector_body_entered" binds= [ 2 ]]
 [connection signal="body_entered" from="Goals/Goal2/GoalDetector" to="." method="_on_GoalDetector_body_entered" binds= [ 1 ]]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
